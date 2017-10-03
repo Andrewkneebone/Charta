@@ -1,0 +1,88 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+global $var_yttheme;
+?>
+
+<div class="header-container header-style-5">
+	<div class="header-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 language-currency">
+					<?php echo $this->getChildHtml('store_language') ?>
+					<?php echo $this->getChildHtml('currency'); ?>
+				</div>
+				
+				<div class="col-lg-8 col-md-8 header-toplinks">
+					<?php echo $this->getChildHtml('topLinks');?>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="header-middle">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 searchbox-header">
+					<?php echo $this->getChildHtml('searchbox') ?>
+				</div>
+				
+				<div class="col-lg-4 col-md-4 col-sm-4 logo-header">
+					<h1 class="logo-content">
+						<a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
+							<img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+						</a>
+					</h1>
+				</div>
+				
+				<div class="col-lg-4 col-md-4 col-sm-4 cart-info-header">
+					<div class="minicart-header">
+						<?php echo $this->getChildHtml('mini-cartpro') ?>
+					</div>
+					
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('phone-number')->toHtml(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="slider-show-header">
+		<?php echo $this->getChildHtml('sm_cameraslide_v5');?>
+	</div>
+	
+	<div class="header-bottom">
+		<div class="container">
+			<div class="navigation-content">
+					<?php echo $this->getChildHtml('megamenu-horizontal'); ?>
+            </div>
+			
+			<div id="yt-responsivemenu" class="yt-responsivemenu">
+				<?php echo $this->getChildHtml('mobiMenu'); ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+

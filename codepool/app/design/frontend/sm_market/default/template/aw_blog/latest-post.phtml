@@ -1,0 +1,84 @@
+<?php $posts = $this->getPosts(); ?>
+
+<div class="latest-post-container">
+	<div class="title-home">
+		<h2>
+			<span><?php echo $this->__('Latest Blog')?></span>
+		</h2>
+	</div>
+	
+	<div class="overflow-content">
+		<div class="slider-post-container">
+			<div class="slider-post">
+				<?php foreach ($posts as $post): ?>
+					<div class="item item-post">
+						<div class="image-blog">
+							<?php
+								$pattern = "/<img .+\/>/";
+								$subject = $post->getPostContent();
+								$result = preg_match( $pattern, $subject , $matches , PREG_OFFSET_CAPTURE );
+								$matched =$matches[0];
+								$first_img=$matched[0];
+							?>
+							
+							<a class="img-link" title="<?php echo $post->getTitle(); ?>" href="<?php echo $post->getAddress(); ?>" ><?php echo $first_img;?></a>
+						</div>
+						
+						<div class="info-blog">
+							<div class="date-post-title">
+								<?php $date_create = $post->getCreatedTime();?>
+								
+								<div class="date-post">
+									<div class="day">
+										<?php 
+											$day_blog = date("d",strtotime($date_create));
+											echo $day_blog;
+										?>
+									</div>
+									
+									<div class="month">
+										<?php 
+											$month_blog = date("M",strtotime($date_create));
+											echo $month_blog;
+										?>
+									</div>
+								</div>
+								
+								<h2 class="postTitle"><a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a></h2>
+							</div>
+							
+							<div class="postContent">
+								<?php $text = str_replace($first_img, '', $post->getPostContent()); 
+									//echo $text;
+									echo substr($text,1,118) . '...';
+								?>
+							</div>
+
+						</div>
+							
+					</div>
+				<?php endforeach; ?>
+			</div>
+		
+			<script>
+				jQuery(document).ready(function($) {
+					var post_slider = $(".slider-post");
+					post_slider.owlCarousel({				
+						      itemsCustom : [
+								[0, 1],
+								[480, 2],
+								[768, 3],
+								[992, 3],
+								[1200, 3],
+							  ],
+						navigation : true
+					});	  
+				});	
+			</script>
+		</div>
+	</div>
+</div>
+
+
+
+

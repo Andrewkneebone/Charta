@@ -1,0 +1,73 @@
+<?php $posts = $this->getPosts(); ?>
+<div class="overflow-content-f">
+<div class="latest-post-type2">
+	<div class="blog-title">
+		<div class="block-title"><?php echo $this->__('Latest Blog')?></div>
+	</div>
+
+		<div class="slider-post-container">
+			<div class="slider-post">
+				<?php foreach ($posts as $post): ?>
+					<div class="item item-post">
+						<div class="post-content">
+							<div class="image-blog">
+								<?php
+									$pattern = "/<img .+\/>/";
+									$subject = $post->getPostContent();
+									$result = preg_match( $pattern, $subject , $matches , PREG_OFFSET_CAPTURE );
+									$matched =$matches[0];
+									$first_img=$matched[0];
+								?>
+								
+								<a class="img-link" title="<?php echo $post->getTitle(); ?>" href="<?php echo $post->getAddress(); ?>" ><?php echo $first_img;?></a>
+							</div>
+							
+							<div class="info-blog">
+								<h2 class="postTitle"><a href="<?php echo $post->getAddress(); ?>" ><?php echo $post->getTitle(); ?></a></h2>
+								<div class="date-comment">
+									<span class="date"><?php echo $post->getCreatedTime();?></span>
+									
+									<?php if ($this->getCommentsEnabled()): ?>       
+										<a class="comment" href="<?php echo $post->getAddress(); ?>#commentBox" ><span><?php if($post->getCommentCount()){echo $post->getCommentCount();}  else { echo "0";} ?></span> <span><?php if($post->getCommentCount()==0 || $post->getCommentCount()==1) { echo $this->__("Comment")?> <?php } else { echo $this->__("Comment")?><?php } ?></span></a> 
+									<?php endif; ?>
+								</div>
+								
+								<div class="postContent">
+									<?php $text = str_replace($first_img, '', $post->getPostContent()); 
+										//echo $text;
+										echo substr($text,1,118) . '...';
+									?>
+								</div>
+								
+								<a class="readmore" href="#" title="<?php echo $this->__('Read more')?>"><?php echo $this->__('Read more')?></a>
+
+							</div>
+						</div>
+							
+					</div>
+				<?php endforeach; ?>
+			</div>
+		
+			<script>
+				jQuery(document).ready(function($) {
+					var post_slider = $(".slider-post");
+					post_slider.owlCarousel({				
+						      itemsCustom : [
+								[0, 1],
+								[480, 2],
+								[768, 2],
+								[992, 3],
+								[1200, 3],
+							  ],
+						navigation : true
+					});	  
+				});	
+			</script>
+		</div>
+
+</div>
+</div>
+
+
+
+
