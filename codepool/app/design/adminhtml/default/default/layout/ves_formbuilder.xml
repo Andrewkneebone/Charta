@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    
+    <!-- Custom Form builder -->
+    <adminhtml_formbuilder_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="ves_formbuilder/adminhtml_formbuilder" name="formbuilder.form" template="ves_formbuilder/form_grid.phtml"/>  
+        </reference>
+    </adminhtml_formbuilder_index>
+    <adminhtml_formbuilder_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/bootstrap-tiny.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/vendor/css/vendor.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/formbuilder.css</name></action>
+        </reference>
+    </adminhtml_formbuilder_edit>
+    <adminhtml_formbuilder_new>
+        <update handle="adminhtml_formbuilder_edit"/>
+    </adminhtml_formbuilder_new>
+
+    <!-- Custom Group Field builder -->
+    <adminhtml_formgroupfield_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="ves_formbuilder/adminhtml_formgroupfield" name="formbuilder.groupfield" template="ves_formbuilder/formgroupfield_grid.phtml"/>  
+        </reference>
+    </adminhtml_formgroupfield_index>
+    <adminhtml_formgroupfield_edit>
+       <update handle="adminhtml_formbuilder_edit"/>
+    </adminhtml_formgroupfield_edit>
+    <adminhtml_formgroupfield_new>
+        <update handle="adminhtml_formbuilder_edit"/>
+    </adminhtml_formgroupfield_new>
+    <!-- Messages manager -->
+    <adminhtml_messages_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="ves_formbuilder/adminhtml_message" name="formbuilder.messages" template="ves_formbuilder/messages_grid.phtml"/>  
+        </reference>
+    </adminhtml_messages_index>
+    <adminhtml_messages_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/vendor/css/vendor.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/formbuilder.css</name></action>
+        </reference>
+    </adminhtml_messages_edit>
+    <adminhtml_messages_new>
+        <update handle="adminhtml_messages_edit"/>
+    </adminhtml_messages_new>
+
+    <!-- Form Model Manager -->
+    <adminhtml_model_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="ves_formbuilder/adminhtml_model" name="formbuilder.model" template="ves_formbuilder/model_grid.phtml"/>  
+        </reference>
+    </adminhtml_model_index>
+    <adminhtml_model_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/vendor/css/vendor.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/formbuilder.css</name></action>
+        </reference>
+    </adminhtml_model_edit>
+    <adminhtml_model_new>
+        <update handle="adminhtml_model_edit"/>
+    </adminhtml_model_new>
+     <!-- Form Model Category Manager -->
+    <adminhtml_modelcategory_index>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="ves_formbuilder/adminhtml_modelcategory" name="formbuilder.modelcategory" template="ves_formbuilder/modelcategory_grid.phtml"/>  
+        </reference>
+    </adminhtml_modelcategory_index>
+    <adminhtml_modelcategory_edit>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>ves_formbuilder/style.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/vendor/css/vendor.css</name></action>
+            <action method="addItem"><type>js_css</type><name>ves_formbuilder/formbuilder.css</name></action>
+        </reference>
+    </adminhtml_modelcategory_edit>
+    <adminhtml_modelcategory_new>
+        <update handle="adminhtml_modelcategory_edit"/>
+    </adminhtml_modelcategory_new>
+</layout>

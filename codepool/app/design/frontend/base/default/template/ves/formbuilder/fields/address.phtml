@@ -1,0 +1,93 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$options = $field['field_options'];
+$required = $field['required'];
+$show_address = isset($field['show_address'])?$field['show_address']:1;
+$show_city = isset($field['show_city'])?$field['show_city']:1;
+$show_state = isset($field['show_state'])?$field['show_state']:1;
+$show_zipcode = isset($field['show_zipcode'])?$field['show_zipcode']:1;
+$show_country = isset($field['show_country'])?$field['show_country']:1;
+
+$cid = $field['cid'];
+$field_name = Ves_FormBuilder_Model_Form::FIELD_NAME_PREFIX.$cid;
+
+$available_fields = Mage::helper('ves_formbuilder/fields')->getAvailableFields();
+$html = '';
+$field_validate = isset($available_fields[$field_type])?$available_fields[$field_type]:'';
+$validates = $field_validate;
+$field_help = isset($options['description'])?$options['description']:'';
+$field_class = isset($options['class'])?$options['class']:'';
+
+if($field_validate && is_array($field_validate)) {
+	$validates = implode(" ", $field_validate);
+}
+
+$_countries = Mage::getResourceModel('directory/country_collection')
+->loadData()
+->toOptionArray(false);
+?>
+<label for="<?php echo $field_name; ?>" class="<?php echo (1==$required)?'required':''; ?>"><?php echo (1==$required)?'<em>*</em>':'';?><?php echo $label; ?></label>
+<div class="input-box">
+
+	<input type="hidden" name="<?php echo $field_name; ?>" value="<?php echo ($form_data && $form_data[$field_name])?$form_data[$field_name]:''; ?>" id="<?php echo $field_name; ?>"/>
+	<?php if($show_address == 1): ?>
+	<div class="input-line">
+		<div class="street">
+			<input type="text" name="<?php echo $field_name.'_street'; ?>" id="<?php echo $field_name.'_street';?>" class="input-text <?php echo (1==$required)?'required-entry':''; ?>" value="<?php echo ($form_data && isset($form_data[$field_name.'_street']))?$form_data[$field_name.'_street']:''; ?>"/>
+			<label for="<?php echo $field_name.'_street'; ?>"><?php echo $this->__('Address'); ?></label>
+		</div>
+	</div>
+	<?php endif; ?>
+	<?php if($show_city == 1 || $show_state == 1): ?>
+	<div class="input-line">
+		<?php if($show_city == 1): ?>
+		<div class="city">
+			<input type="text" name="<?php echo $field_name.'_city';?>" id="<?php echo $field_name.'_city';?>" class="input-text" value="<?php echo ($form_data && isset($form_data[$field_name.'_city']))?$form_data[$field_name.'_city']:''; ?>"/>
+			<label for="<?php echo $field_name.'_city'; ?>"><?php echo $this->__('City'); ?></label>
+		</div>
+		<?php endif; ?>
+		<?php if($show_state == 1): ?>
+		<div class="state">
+			<input type="text" name="<?php echo $field_name.'_state';?>" id="<?php echo $field_name.'_state';?>" class="input-text validate-state" value="<?php echo ($form_data && isset($form_data[$field_name.'_state']))?$form_data[$field_name.'_state']:''; ?>"/>
+			<label for="<?php echo $field_name.'_state'; ?>"><?php echo $this->__('State / Province / Region');?></label>
+		</div>
+		<?php endif; ?>
+	</div>
+	<?php endif; ?>
+	<?php if($show_zipcode == 1 || $show_country == 1): ?>
+	<div class="input-line">
+		<?php if($show_zipcode == 1): ?>
+		<div class="zipcode">
+			<input type="text" name="<?php echo $field_name.'_zipcode'; ?>" id="<?php echo $field_name.'_zipcode';?>" class="input-text validate-zip-international" value="<?php echo ($form_data && isset($form_data[$field_name.'_zipcode']))?$form_data[$field_name.'_zipcode']:''; ?>"/>
+			<label for="<?php echo $field_name.'_city'; ?>"><?php echo $this->__('Zipcode'); ?></label>
+		</div>
+		<?php endif; ?>
+		<?php if($show_country == 1): ?>
+		<div class="country">
+
+			<?php
+			if (count($_countries) > 0) { ?>
+
+			<select name="<?php echo $field_name.'_country'; ?>" id="<?php echo $field_name.'_country'; ?>">
+				<option value=""><?php echo $this->__('-- Please Select --'); ?></option>
+				<?php foreach($_countries as $_country) { ?>
+				<option value="<?php echo $_country['value']; ?>" <?php echo ($form_data && isset($form_data[$field_name.'_country']))?' selected="selected"':''; ?>><?php echo $_country['label']; ?></option>
+				<?php } ?>
+			</select>
+			<?php } else { ?>
+			$html .='<input type="text" name="<?php echo $field_name.'_country'; ?>" value="<?php echo ($form_data && isset($form_data[$field_name.'_country']))?$form_data[$field_name.'_country']:''; ?>" id="<?php echo $field_name.'_country';?>" class="input-text"/>
+			<?php }
+			?>
+			<label for="<?php echo $field_name.'_country';?>"><?php echo $this->__('Country'); ?></label>
+		</div>
+		<?php endif; ?>
+	</div>
+	<?php endif; ?>
+
+	<?php if($field_help) { ?>
+	<span class="help-block"><?php echo $field_help ?></span>
+	<?php } ?>
+</div>

@@ -1,0 +1,28 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$options = $field['field_options'];
+$group_tag = isset($field['group_tag'])?$field['group_tag']:'fieldset';
+$custom_class = isset($field['custom_class'])?$field['custom_class']:'';
+$wrappercol = isset($field['wrappercol'])?' col-sm-'.$field['wrappercol']:'';
+$other_property = isset($field['other_property'])?$field['other_property']:'';
+$custom_id = isset($field['custom_id'])?$field['custom_id']:'';
+$inline_css = isset($field['inline_css'])?$field['inline_css']:'';
+$cid = $field['cid'];
+$default_input = "";
+
+$field_name = Ves_FormBuilder_Model_Form::FIELD_NAME_PREFIX.$cid;
+if($custom_id){
+	$field_name = $custom_id;
+}
+?>
+<<?php echo $group_tag; ?> id="<?php echo $field_name; ?>" class="<?php echo $custom_class.$wrappercol; ?>" style="<?php echo $inline_css; ?>" <?php echo $other_property; ?>>
+<?php if ($label) { ?>
+<?php if($group_tag == "fieldset") { ?>
+	<legend><?php echo $label; ?></legend>
+<?php } else { ?>
+ 	<label for="<?php echo $field_name; ?>"><?php echo $label; ?></label>
+<?php } ?>
+<?php } ?>

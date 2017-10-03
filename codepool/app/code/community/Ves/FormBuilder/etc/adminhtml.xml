@@ -1,0 +1,169 @@
+<?xml version="1.0"?> 
+<config>
+    <menu>
+            <vesextensions module="ves_formbuilder">
+                <title>VenusTheme</title>
+                <sort_order>53</sort_order>
+                <children>
+                    <formbuilder translate="title" module="ves_formbuilder">
+                        <title>Ves Form Builder</title>
+                        <children>
+                            <!--
+                            <add_group translate="title" module="ves_formbuilder">
+                                <title>Create Group Field</title>
+                                <sort_order>0</sort_order>
+                                <action>adminhtml/formgroupfield/new</action>
+                            </add_group>
+                            <group_field translate="title" module="ves_formbuilder">
+                                <title>Manager Group Fields</title>
+                                <sort_order>1</sort_order>
+                                <action>adminhtml/formgroupfield/index</action>
+                            </group_field>-->
+                            <add translate="title" module="ves_formbuilder">
+                                <title>Create Form</title>
+                                <sort_order>3</sort_order>
+                                <action>adminhtml/formbuilder/new</action>
+                            </add>
+                            <formbuilder translate="title" module="ves_formbuilder">
+                                <title>Manager Forms</title>
+                                <sort_order>4</sort_order>
+                                <action>adminhtml/formbuilder/index</action>
+                            </formbuilder>
+                            <modelcategory translate="title" module="ves_formbuilder">
+                                <title>Manager Model Categories</title>
+                                <sort_order>30</sort_order>
+                                <action>adminhtml/modelcategory/index</action>
+                            </modelcategory>
+                            <model translate="title" module="ves_formbuilder">
+                                <title>Manager Model Manager</title>
+                                <sort_order>40</sort_order>
+                                <action>adminhtml/model/index</action>
+                            </model>
+                            <formbuilder_message translate="title" module="ves_formbuilder">
+                                <title>Messages</title>
+                                <sort_order>45</sort_order>
+                                <action>adminhtml/messages/index</action>
+                            </formbuilder_message>
+                            <configuration translate="title" module="ves_formbuilder">
+                                <title>Configuration</title>
+                                <sort_order>50</sort_order>
+                                <action>adminhtml/system_config/edit/section/ves_formbuilder</action>
+                            </configuration>
+                        </children>
+                    </formbuilder>
+                </children>
+            </vesextensions>
+    </menu>
+    <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <vesextensions module="ves_formbuilder">
+                            <title>VenusTheme</title>
+                            <sort_order>53</sort_order>
+                            <children>
+                                 <formbuilder translate="title" module="ves_formbuilder">
+                                    <title>Ves Form Builder</title>
+                                    <children>
+                                        <add_group translate="title" module="ves_formbuilder">
+                                            <title>Create Group Field</title>
+                                            <sort_order>0</sort_order>
+                                        </add_group>
+                                        <group_field translate="title" module="ves_formbuilder">
+                                            <title>Manager Group Fields</title>
+                                            <sort_order>1</sort_order>
+                                        </group_field>
+                                        <save_group_field translate="title" module="ves_formbuilder">
+                                            <title>Save Group Field</title>
+                                            <sort_order>1</sort_order>
+                                        </save_group_field>
+                                        <delete_group_field translate="title" module="ves_formbuilder">
+                                            <title>Delete Group Field</title>
+                                            <sort_order>1</sort_order>
+                                        </delete_group_field>
+                                        <add translate="title" module="ves_formbuilder">
+                                            <title>Create Custom Form</title>
+                                            <sort_order>3</sort_order>
+                                            <action>formbuilder/adminhtml_formbuilder/new</action>
+                                        </add>
+                                        <formbuilder translate="title" module="ves_formbuilder">
+                                            <title>Manager Custom Forms</title>
+                                            <sort_order>4</sort_order>
+                                            <action>formbuilder/adminhtml_formbuilder/index</action>
+                                        </formbuilder>
+
+                                        <formbuilder_delete translate="title" module="ves_formbuilder">
+                                            <title>Delete Form</title>
+                                            <sort_order>4</sort_order>
+                                        </formbuilder_delete>
+
+                                        <formbuilder_save translate="title" module="ves_formbuilder">
+                                            <title>Save Form</title>
+                                            <sort_order>4</sort_order>
+                                        </formbuilder_save>
+                                        
+                                        <modelcategory translate="title" module="ves_formbuilder">
+                                            <title>Manager Model Categories</title>
+                                            <sort_order>20</sort_order>
+                                            <action>formbuilder/adminhtml_modelcategory/index</action>
+                                        </modelcategory>
+                                        <modelcategory_add translate="title" module="ves_formbuilder">
+                                            <title>Add Edit Model Category</title>
+                                            <sort_order>20</sort_order>
+                                        </modelcategory_add>
+                                        <modelcategory_save translate="title" module="ves_formbuilder">
+                                            <title>Save Model Category</title>
+                                            <sort_order>20</sort_order>
+                                        </modelcategory_save>
+                                        <modelcategory_delete translate="title" module="ves_formbuilder">
+                                            <title>Delete Model Category</title>
+                                            <sort_order>20</sort_order>
+                                        </modelcategory_delete>
+                                        <model translate="title" module="ves_formbuilder">
+                                            <title>Manager Model Manager</title>
+                                            <sort_order>30</sort_order>
+                                            <action>formbuilder/adminhtml_model/index</action>
+                                        </model>
+                                        <model_add translate="title" module="ves_formbuilder">
+                                            <title>Add Edit Model</title>
+                                            <sort_order>30</sort_order>
+                                        </model_add>
+                                        <model_save translate="title" module="ves_formbuilder">
+                                            <title>Save Model</title>
+                                            <sort_order>30</sort_order>
+                                        </model_save>
+                                        <model_delete translate="title" module="ves_formbuilder">
+                                            <title>Delete Model</title>
+                                            <sort_order>30</sort_order>
+                                        </model_delete>
+                                        <formbuilder_message translate="title" module="ves_formbuilder">
+                                            <title>Messages</title>
+                                            <sort_order>45</sort_order>
+                                            <action>formbuilder/adminhtml_messages/index</action>
+                                        </formbuilder_message>
+                                        <configuration translate="title" module="ves_formbuilder">
+                                            <title>Configuration</title>
+                                            <sort_order>50</sort_order>
+                                            <action>adminhtml/system_config/edit/section/ves_formbuilder</action>
+                                        </configuration>
+                                    </children>
+                                </formbuilder>
+                            </children>
+                        </vesextensions>
+                         <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <ves_formbuilder>
+                                            <title>Ves Form Builder</title>
+                                        </ves_formbuilder>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+</config>

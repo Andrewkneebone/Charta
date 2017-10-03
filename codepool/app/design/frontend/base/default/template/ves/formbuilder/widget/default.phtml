@@ -1,0 +1,321 @@
+<?php
+/**
+ * Venustheme
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Venustheme EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.venustheme.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.venustheme.com/ for more information
+ *
+ * @category   Ves
+ * @package    Ves_FormBuilder
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+
+/**
+ * Form Builder extension
+ *
+ * @category   Ves
+ * @package    Ves_FormBuilder
+ * @author     Venustheme Dev Team <venustheme@gmail.com>
+ */
+
+$modId = rand(1,9)+rand();
+$customForm = $this->getCurrentForm();
+
+if($customForm){
+  $fields = $customForm->getFields();
+  if(isset($fields[0]) && isset($fields[0]['fields'])) {
+   unset($fields[0]);
+ }
+
+ $display_type = $this->getConfig('display_type');
+ $popup_width = $this->getConfig('popup_width','80%');
+ $popup_height = $this->getConfig('popup_height','60%');
+ $heading = $this->getConfig('title');
+ $prefix_class = $this->getConfig('prefix_class');
+ $skin = $customForm->getData("skin");
+ $class = '';
+ $special_fields = array("start_group", "end_group", "group_field");
+ $frame_work_css = $this->getConfig('frame_work_css', 'bootstrap');
+ $medium = 'col-sm-';
+ if($frame_work_css == 'foundation') {
+    $medium = 'columns medium-';
+ }
+
+ if($display_type == 'popup'){
+  $class = 'formbuilder-popup';
+}
+if(isset($fields) && $fields) {
+
+  $show_captcha = $customForm->getData('show_captcha');
+  $enable_captcha = $this->getData('show_captcha');
+  $submit_button_text = $customForm->getSubmitButtonText();
+  $before_form_content = $customForm->getBeforeFormContent();
+  $after_form_content = $customForm->getAfterFormContent();
+  $settings = $customForm->getSettings();
+	//$heading = $customForm->getHeading();
+  ?>
+  <!--<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>-->
+  <?php if(trim($heading)): ?>
+    <div class="page-title">
+      <h1><?php echo $heading; ?></h1>
+    </div>
+  <?php endif; ?>
+
+  <?php
+  if($fields) {
+    echo $this->getHtmlCalendar();
+  }
+  ?>
+
+  <?php if($before_form_content && $display_type == 'current_page') { ?>
+  <div class="before-form-content">
+   <?php echo $before_form_content; ?>
+ </div>
+ <?php } ?>
+
+ <?php if($display_type == 'popup'){ ?>
+ <div class="btn-formbuilder">
+  <p >
+    <a class="btn-slide" title="<?php echo $this->__('Form Builder'); ?>" id="fme-faq-btn-slide-open" href="javascript:void(0);" onclick="showFormBuilder<?php echo $modId; ?>();"><?php echo $this->__($this->getConfig('popup_button_text')); ?></a>
+  </p>
+</div>
+<?php } ?>
+
+<?php if($display_type == 'link'){ ?>
+<a href="<?php echo Mage::helper('ves_formbuilder')->getFormLink($customForm); ?>" title="<?php echo $this->escapeHtml($this->getConfig('button_text')) ?>"><?php echo $this->__($this->getConfig('button_text')) ?></a>
+<?php } ?>
+
+<?php if($display_type == 'popup' || $display_type == 'current_page'){ ?>
+<?php if($display_type == 'popup'): ?>
+<div style="display:none">
+<?php endif; ?>
+<div class="popup-customform formbuilder <?php echo $skin; ?> <?php echo $prefix_class; ?> <?php echo $class; ?>" id="customFormBuilder<?php echo $modId; ?>">
+  <form action="<?php echo $this->getFormAction(); ?>" id="vesformbuilder<?php echo $modId; ?>" method="post" class="scaffold-form" enctype="multipart/form-data">
+
+    <?php if($before_form_content && $display_type == 'popup') { ?>
+    <div class="before-form-content">
+     <?php echo $before_form_content; ?>
+   </div>
+   <?php } ?>
+
+   <div class="fieldset">
+     <!-- Show Custom Fields-->
+     <div class="form-list row">
+
+       <?php if($fields){ ?>
+
+       <?php foreach($fields as $field) { ?>
+       <?php if(!in_array($field['field_type'], $special_fields)) { ?>
+       <div <?php echo (isset($field['inline_css']) && $field['inline_css'])?'style="'.$field['inline_css'].'"':""; ?> class="field <?php echo isset($field['wrappercol'])?$medium.$field['wrappercol']:$medium.'12'; ?> <?php if($field['field_type'] == 'section_break' && $field['show_breakline']==2){ echo 'hidden'; } ?>">
+              <div class="response-field-<?php echo $field['field_type'] ?>">
+         <?php
+         echo $this->getField($field['field_type'], $field);
+         ?>
+       </div>
+     </div>
+     <?php } else {
+      echo $this->getField($field['field_type'], $field);
+     } ?>
+     <?php } ?>
+
+
+     <?php if($show_captcha == 1 && $enable_captcha && $captcha = $this->getReCaptcha()){  ?>
+             <?php if($display_type == 'popup'){ ?>
+                 <?php if(!Mage::registry("form_recaptcha") ) { ?>
+                     <?php Mage::register("form_recaptcha", 1); ?>
+                     <li class="recaptcha_play">
+                      <?php echo $captcha ?>
+                    </li>
+                    <li class="recaptcha_clone">
+                    </li>
+                    <?php } else { ?>
+                    <li class="recaptcha_clone">
+                    </li>
+                    <?php } ?>
+              <?php } else { ?>
+                  <li>
+                    <?php echo $this->getReCaptcha("myCallBackReCaptcha") ?>
+                    <div id="recaptcha<?php echo $modId; ?>" class="recaptcha-play" data-sitekey="<?php echo $this->getConfig('public_key','','recaptcha'); ?>" data-theme="<?php echo $this->getConfig('theme','','recaptcha'); ?>"></div>
+                  </li>
+              <?php } ?>
+    <?php } ?>
+
+    <?php } ?>
+
+
+  </div>
+</div>
+<div class="buttons-set">
+  <input type="text" name="formId" id="hideit" value="<?php echo $customForm->getId(); ?>" style="display:none !important;" />
+  <?php if($this->getConfig('is_product_mode') && Mage::registry('current_product')){ ?>
+    <input type="hidden" name="product_id" id="product_id" value="<?php echo Mage::registry('current_product')->getId() ?>"  />
+    <?php } ?>
+    <button type="submit" title="<?php echo Mage::helper('ves_formbuilder')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('ves_formbuilder')->__('Submit') ?></span></span></button>
+    <?php if($submit_button_text){ ?>
+    <div class="clear"><?php echo $submit_button_text; ?></div>
+    <?php } ?>
+  </div>
+
+  <?php if($after_form_content && $display_type == 'popup') { ?>
+  <div class="after-form-content">
+   <?php echo $after_form_content; ?>
+ </div>
+ <?php } ?>
+</form>
+</div>
+<?php if($display_type == 'popup'): ?>
+</div>
+<?php endif; ?>
+
+<?php if($after_form_content && $display_type == 'current_page') { ?>
+<div class="after-form-content">
+ <?php echo $after_form_content; ?>
+</div>
+<?php } ?>
+
+<script type="text/javascript">
+//<![CDATA[
+var customFormBuilder<?php echo $modId; ?> = new VarienForm('vesformbuilder<?php echo $modId; ?>', true);
+if(typeof($recaptcha) === "undefined") {
+  var $recaptcha = null;
+}
+
+<?php if($display_type == 'popup'){ ?>
+
+  function showFormBuilder<?php echo $modId; ?>(){
+    if(jQuery(".recaptcha_play").length > 0 && $recaptcha == null) {
+      $recaptcha = jQuery(".recaptcha_play").first().html();
+    }
+    
+    jQuery('#customFormBuilder<?php echo $modId; ?>').show();
+    jQuery.colorbox({
+      inline:true,
+      maxWidth: true,
+      opacity: 0.7,
+      width: "<?php echo $popup_width; ?>",
+      height: "<?php echo $popup_height; ?>",
+      open:true,
+      responsive: true,
+      onLoad:function(){
+        if($recaptcha && jQuery('#customFormBuilder<?php echo $modId; ?>').find(".recaptcha_clone").length > 0) {
+          jQuery(".recaptcha_play").html("");
+          jQuery(".recaptcha_clone").html("");
+          jQuery('#customFormBuilder<?php echo $modId; ?>').find(".recaptcha_clone").first().html($recaptcha);
+        } 
+        
+        jQuery("#cboxNext").remove(0);
+        jQuery("#cboxPrevious").remove(0);
+        jQuery("#cboxCurrent").remove(0);
+
+      },
+      onClosed:function(){
+        jQuery('#customFormBuilder<?php echo $modId; ?>').hide();
+      },
+      href:"#customFormBuilder<?php echo $modId; ?>" }); 
+  }
+<?php if($this->getConfig('is_product_mode') && Mage::registry('current_product')){ ?>
+  jQuery(document).ready(function(){
+      var $customform_clone = jQuery('#customFormBuilder<?php echo $modId; ?>').clone();
+      var $html = $customform_clone.html();
+      jQuery('#customFormBuilder<?php echo $modId; ?>').remove();
+      
+      var $popupwrapper = jQuery('<div class="popup-customform <?php echo $class; ?>" id="customFormBuilder<?php echo $modId; ?>"></div>');
+      var $form = jQuery('<form action="<?php echo $this->getFormAction(); ?>" id="vesformbuilder<?php echo $modId; ?>" method="post" class="scaffold-form" enctype="multipart/form-data"></form>').appendTo($popupwrapper);
+
+      jQuery($html).appendTo($form);
+      $popupwrapper.appendTo("body");
+      var customFormBuilder<?php echo $modId; ?> = new VarienForm('vesformbuilder<?php echo $modId; ?>', true);
+  });
+<?php } ?>
+  <?php } ?>
+
+
+//]]>
+</script>
+<script type="text/javascript">
+  function buildTimeValue(target_id){
+    var hours = document.getElementById(target_id+"_hours").value;
+    var minutes = document.getElementById(target_id+"_minutes").value;
+    var seconds = document.getElementById(target_id+"_seconds").value;
+    var am_pm = document.getElementById(target_id+"_am_pm").value;;
+
+    var time = "";
+
+    hours = parseInt(hours);
+    if(hours < 10) {
+      hours = "0"+hours;
+    }
+    minutes = parseInt(minutes);
+    if(minutes < 10) {
+      minutes = "0"+minutes;
+    }
+    seconds = parseInt(seconds);
+    if(seconds < 10) {
+      seconds = "0"+seconds;
+    }
+
+    time = hours +":"+ minutes +":"+ seconds + " " + am_pm;
+
+    document.getElementById(target_id).value = time;
+
+  }
+
+  Validation.add('validate-min-max',"<?php echo Mage::helper('core')->jsQuoteEscape($this->__('You failed to enter the number!')); ?>",function (v, elm) {
+
+    var reMax = new RegExp(/^maximum-length-[0-9]+$/);
+    var reMin = new RegExp(/^minimum-length-[0-9]+$/);
+    var validate_units = elm.readAttribute("data-units");
+    var result = true;
+
+    $w(elm.className).each(function(name, index) {
+      if (name.match(reMax) && result) {
+        var length = name.split('-')[2];
+        if(validate_units == "words") {
+          result = (v.split(' ').length <= length);
+        } else {
+          result = (v.length <= length);
+        }
+
+      }
+      if (name.match(reMin) && result && !Validation.get('IsEmpty').test(v)) {
+       var length = name.split('-')[2];
+       if(validate_units == "words") {
+        result = (v.split(' ').length >= length);
+      } else {
+        result = (v.length >= length);
+      }
+    }
+  });
+    return result;
+  });
+</script>
+<?php } ?>
+<?php } ?>
+<?php } ?>
+<?php if(isset($custom_css) && $custom_css) : ?>
+<!-- Form Builder Custom CSS-->
+<style type="text/css">
+  <?php echo $custom_css; ?>
+</style>
+<?php
+ endif; 
+?>
+<?php if(isset($custom_js) && $custom_js) : ?>
+<!-- Form Builder Custom JS-->
+<script type="text/javascript">
+  <?php echo $custom_js; ?>
+</script>
+<?php
+ endif; 
+?>

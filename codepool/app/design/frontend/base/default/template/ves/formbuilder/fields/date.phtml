@@ -1,0 +1,74 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$options = $field['field_options'];
+$required = $field['required'];
+$cid = $field['cid'];
+$field_name = Ves_FormBuilder_Model_Form::FIELD_NAME_PREFIX.$cid;
+
+$available_fields = Mage::helper('ves_formbuilder/fields')->getAvailableFields();
+$html = '';
+$field_validate = isset($available_fields[$field_type])?$available_fields[$field_type]:'';
+$validates = $field_validate;
+$field_help = isset($options['description'])?$options['description']:'';
+$field_class = isset($options['class'])?$options['class']:'';
+
+if($field_validate && is_array($field_validate)) {
+	$validates = implode(" ", $field_validate);
+}
+$date_format = Mage::getStoreConfig("ves_formbuilder/ves_formbuilder/date_format");
+$date_format_hints = "dd/mm/yyyy";
+if(!$date_format) {
+	$date_format = "%d/%m/%Y";
+}
+
+$myDate = Mage::getModel('core/date')->date('Y-m-d'); //get current date
+
+switch ($date_format) {
+	case '%m/%d/%Y':
+		$date_format_hints = "mm/dd/yyyy";
+		break;
+	case Mage_Core_Model_Locale::FORMAT_TYPE_SHORT: //Short
+		$date_format = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+		$date_format_hints = Mage::helper('core')->formatDate($myDate, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, false);
+		break;
+	case Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM: //Medium
+		$date_format = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+
+		$date_format_hints = Mage::helper('core')->formatDate($myDate, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, false);
+		break;
+	case Mage_Core_Model_Locale::FORMAT_TYPE_LONG: //Long
+		$date_format = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_LONG);
+		$date_format_hints = Mage::helper('core')->formatDate($myDate, Mage_Core_Model_Locale::FORMAT_TYPE_LONG, false);
+		break;
+	case Mage_Core_Model_Locale::FORMAT_TYPE_FULL: //Full
+		$date_format = Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_FULL);
+		$date_format_hints = Mage::helper('core')->formatDate($myDate, Mage_Core_Model_Locale::FORMAT_TYPE_FULL, false);
+		break;
+	default:
+		# code...
+		break;
+}
+?>
+<label for="<?php echo $field_name; ?>" class="<?php echo (1==$required)?'required':''; ?>"><?php echo (1==$required)?'<em>*</em>':'';?><?php echo $label; ?></label>
+<div class="input-box">
+
+	<input name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" title="<?php echo $label; ?>" value="<?php echo ($form_data && isset($form_data[$field_name]))?$form_data[$field_name]:''; ?>" class="input-text <?php echo $field_class; ?> <?php echo (1==$required)?'required-entry':''?> <?php echo $validates ?>" type="text" placeholder="<?php echo $date_format_hints; ?>"/>
+
+	<?php if($field_help) { ?>
+	<span class="help-block"><?php echo $field_help; ?></span>
+	<?php } ?>
+
+	<script type="text/javascript">// <![CDATA[
+		Calendar.setup({
+			inputField : "<?php echo $field_name; ?>",
+			ifFormat : "<?php echo $date_format; ?>",
+			button : "<?php echo $field_name.'_trig'; ?>",
+			align : "Bl",
+			singleClick : true
+		});
+		// ]]></script>
+
+	</div>

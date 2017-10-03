@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<widgets>
+    <formbuilder type="ves_formbuilder/widget_form"  translate="label description" module="ves_formbuilder" >
+        <name>Ves FormBuilder: Show custom form</name>
+        <description type="desc">Generate Custom Form Profile</description>
+        <parameters>
+            <title translate="label" module="core">
+                <label>Title</label>
+                <description>This tile will be showed as header of widget block. Empty to disable </description>
+                <type>text</type>
+                <visible>1</visible>
+                <sort_order>0</sort_order>
+            </title>
+
+            <prefix_class translate="label" module="core">
+                <label>Prefix Class</label>
+                <description>Input the custom css class for the form</description>
+                <type>text</type>
+                <visible>1</visible>
+                <sort_order>2</sort_order>
+            </prefix_class>
+
+            <form_id translate="label" module="core">
+                <label>Custom Form</label>
+                <sort_order>5</sort_order>
+                <type>select</type>
+                <source_model>ves_formbuilder/system_config_source_listForm</source_model>
+                <description>Choose Form Builder Item</description>
+                <visible>1</visible>
+                <required>1</required>
+                <value></value>
+            </form_id>
+
+            <display_type translate="label" module="core">
+                <label>Display Type</label>
+                <description></description>
+                <type>select</type>
+                <values>
+                    <popup translate="label">
+                        <label>Popup</label>
+                        <value>popup</value>
+                    </popup>
+                    <link translate="label">
+                        <label>Button Link</label>
+                        <value>link</value>
+                    </link>
+                    <current_page translate="label">
+                        <label>Show on current page</label>
+                        <value>current_page</value>
+                    </current_page>
+                </values>
+                <visible>1</visible>
+                <sort_order>10</sort_order>
+                <value>false</value>
+            </display_type>
+
+            <button_text translate="label">
+                <label>Button Text</label>
+                <type>text</type>
+                <description>Use as link to custom form page</description>
+                <visible>1</visible>
+                <sort_order>15</sort_order>
+                <value>FormBuilder</value>
+                <depends><display_type><value>link</value></display_type></depends>
+            </button_text>
+
+            <popup_button_text translate="label">
+                <label>Button Text</label>
+                <type>text</type>
+                <description>Link click on to show custom form in popup.</description>
+                <visible>1</visible>
+                <sort_order>22</sort_order>
+                <value>FormBuilder</value>
+                <depends><display_type><value>popup</value></display_type></depends>
+            </popup_button_text>
+
+            <popup_width translate="label">
+                <label>Popup Width</label>
+                <type>text</type>
+                <description>Default: 80%</description>
+                <visible>1</visible>
+                <sort_order>25</sort_order>
+                <value>80%</value>
+                <depends><display_type><value>popup</value></display_type></depends>
+            </popup_width>
+
+            <popup_height translate="label">
+                <label>Popup Height</label>
+                <type>text</type>
+                <description>Default: 60%</description>
+                <visible>1</visible>
+                <sort_order>30</sort_order>
+                <value>60%</value>
+                <depends><display_type><value>popup</value></display_type></depends>
+            </popup_height>
+
+            <show_text_before translate="label" module="core">
+                <label>Show Text Before Form</label>
+                <type>select</type>
+                <values>
+                    <yes translate="label">
+                        <label>Yes</label>
+                        <value>true</value>
+                    </yes>
+                    <no translate="label">
+                        <label>No</label>
+                        <value>false</value>
+                    </no>
+                </values>
+                <visible>1</visible>
+                <sort_order>35</sort_order>
+                <value>true</value>
+            </show_text_before>
+
+            <show_text_after translate="label" module="core">
+                <label>Show Text After Form</label>
+                <type>select</type>
+                <values>
+                    <yes translate="label">
+                        <label>Yes</label>
+                        <value>true</value>
+                    </yes>
+                    <no translate="label">
+                        <label>No</label>
+                        <value>false</value>
+                    </no>
+                </values>
+                <visible>1</visible>
+                <sort_order>40</sort_order>
+                <value>true</value>
+            </show_text_after>
+
+            <show_captcha translate="label" module="core">
+                <label>Show Captcha</label>
+                <type>select</type>
+                <values>
+                    <yes translate="label">
+                        <label>Yes</label>
+                        <value>true</value>
+                    </yes>
+                    <no translate="label">
+                        <label>No</label>
+                        <value>false</value>
+                    </no>
+                </values>
+                <value>true</value>
+                <visible>1</visible>
+                <sort_order>40</sort_order>
+                <value>true</value>
+            </show_captcha>
+
+            <is_product_mode translate="label" module="core">
+                <label>Is Product Mode?</label>
+                <description>Use custom form as product custom form. The form will get product information when submit custom form</description>
+                <type>select</type>
+                <values>
+                    <yes translate="label">
+                        <label>Yes</label>
+                        <value>true</value>
+                    </yes>
+                    <no translate="label">
+                        <label>No</label>
+                        <value>false</value>
+                    </no>
+                </values>
+                <visible>1</visible>
+                <sort_order>45</sort_order>
+                <value>false</value>
+            </is_product_mode>
+
+            <block_template translate="label">
+                <visible>1</visible>
+                <label>Template</label>
+                <description>Input custom module template file path. For example: ves_formbuilder/default.phtml Empty for default</description>
+                <type>text</type>
+                <sort_order>300</sort_order>
+            </block_template>
+        </parameters>
+    </formbuilder>
+</widgets>

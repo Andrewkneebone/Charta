@@ -1,0 +1,54 @@
+<?php
+ $messages = $this->getSubmittedMessages();
+ $total = $messages->getSize();
+
+?>
+<div class="my-message">
+	<div class="page-title">
+		<h1><?php echo $this->__('My Submitted Messages'); ?></h1>
+	</div>
+	<div class="box-account box-message">
+		<?php 
+		if($total <= 0 ){
+			?>
+			<div class="no-result"><?php echo $this->__("No Questions Found!");?></div>
+			<?php
+		} else {
+		?>
+		<div class="col1-set">
+			<?php $processor = Mage::helper('cms')->getPageTemplateProcessor(); ?>
+			<table class="data-table messages">
+				<colgroup>
+				<col width="1">
+			    <col>
+			    <col width="1">
+			    </colgroup>
+				<thead>
+				<tr class="first last">
+					<th class="formname"><?php echo $this->__("Form Name"); ?></th>
+					<th class="date"><?php echo $this->__("Created Date"); ?></th>
+					<th class="message"><?php echo $this->__("Message"); ?></th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php
+				$i = 1;
+				foreach ($messages as $_message) {
+				$id = rand().time();
+				$row_class = (($i%2)==0)?'even':'odd';
+				?>
+				<tr class="<?php echo ($i==1)?'first ':''; echo $row_class; echo ($i==$total)?' last':''; ?>">
+					<td class="formname"><a href="<?php echo $this->getFormLinkFromID($_message->getIdentifier()); ?>" title="<?php echo $_message->getTitle(); ?>"><?php echo $_message->getTitle(); ?></a></td>
+					<td  class="date"><?php echo date("D, j M, Y", strtotime($_message->getCreated())); ?></td>
+					<td class="message"><?php echo $_message->getMessage(); ?></td>
+				</tr>
+				<?php
+				$i++; 
+				} 
+				?>
+				</tbody>
+			</table>
+		</div>
+		<?php } ?>
+	</div>
+</div>

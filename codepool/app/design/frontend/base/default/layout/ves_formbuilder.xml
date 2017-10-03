@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addJs" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_jquery"><script>ves_formbuilder/jquery.min.js</script></action>
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/show"><type>skin_css</type><name>ves_formbuilder/styles.css</name></action>
+			<action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+			<action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+			<action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_raty"><type>skin_js</type><name>ves_formbuilder/js/raty/jquery.raty.js</name></action>
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_raty"><type>skin_css</type><name>ves_formbuilder/js/raty/jquery.raty.css</name></action>
+
+			<block type="core/text" name="google.cdn.maps" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_locationpicker">
+				<action method="setText">
+					<text>
+						<![CDATA[<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyALraGXlzRqFlAOb-tYLhUi6o6Cq9qN4KA&amp;sensor=false&libraries=places"></script>]]>
+					</text>
+				</action>
+			</block>
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_locationpicker"><type>skin_js</type><name>ves_formbuilder/js/locationpicker/jquery.locationpicker.js</name></action>
+
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_colorbox"><type>skin_css</type><name>ves_formbuilder/colorbox.css</name></action>
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/enable_colorbox"><type>skin_js</type><name>ves_formbuilder/js/colorbox/jquery.colorbox-min.js</name></action>
+
+			<action method="addItem" module="ves_formbuilder" ifconfig="ves_formbuilder/ves_formbuilder/show"><type>skin_js</type><name>ves_formbuilder/js/frontend.js</name></action>
+
+			<action method="addItem"><type>skin_css</type><name>ves_formbuilder/bootstrap-tiny.css</name></action>
+		</reference>
+	</default>
+	<formbuilder_index_index>
+		<reference name="root">
+			<action method="setTemplate">
+				<template>page/1column.phtml</template>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="ves_formbuilder/form" name="formbuilderCustomForm" template="ves/formbuilder/default.phtml">
+				<block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+			</block>
+		</reference>
+	</formbuilder_index_index>
+
+	<formbuilder_add_toplinks>
+		<reference name="top.links">
+			<block type="ves_formbuilder/toplinks" name="formbuilder_toplinks">
+				<action method="addCustomFormLinks"></action>
+			</block>
+		</reference>
+	</formbuilder_add_toplinks>
+
+	<formbuilder_account_index>
+		<update handle="customer_account"/>
+		<reference name="root">
+			<action method="setTemplate">
+				<template>page/2columns-left.phtml</template>
+			</action>
+		</reference>
+	</formbuilder_account_index>
+
+	<customer_account translate="label">
+		<reference name="customer_account_navigation" ifconfig="ves_formbuilder/ves_formbuilder/show_in_dashboard">
+			<action method="addLink" translate="label" module="ves_formbuilder"><name>mymessages</name><path>formbuilder/account/</path><label>My Submitted Messages</label></action>
+		</reference>
+	</customer_account>
+</layout>

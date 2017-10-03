@@ -1,0 +1,46 @@
+.clear { clear: both;}
+.formbuilder-popup{
+	display: none;
+}
+
+.field-section-break{
+	width: 100%;
+	height: 1px;
+	top: 50%;
+	border: 1px solid #CCC;
+	position: relative;
+	margin-top: 25px;
+}
+
+.field-section-break .sm-section-break{
+	position: absolute;
+	top: -10px;
+	width: 100%;
+	text-align: center;
+}
+
+.field-section-break .sm-section-break span{
+	background: #FFF;
+	padding: 0 20px;
+}
+.ves-rating-play img {display: inline;}
+.workflow_table th, .workflow_table td {
+    padding-bottom: 10px;
+    padding-right: 15px;
+}
+.calendar{ z-index: 99999}
+
+.formbuilder .row {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+.response-field-google_map .form-group{
+	margin-bottom: 20px;
+}
+
+.formbuilder .row input[type="text"],
+.formbuilder .row select,
+.formbuilder .row textarea {
+    width: 100%;
+    max-width: 100%;
+}

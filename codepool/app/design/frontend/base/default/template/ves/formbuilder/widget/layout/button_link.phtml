@@ -1,0 +1,62 @@
+<?php
+/**
+ * Venustheme
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Venustheme EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.venustheme.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.venustheme.com/ for more information
+ *
+ * @category   Ves
+ * @package    Ves_FormBuilder
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+
+/**
+ * Form Builder extension
+ *
+ * @category   Ves
+ * @package    Ves_FormBuilder
+ * @author     Venustheme Dev Team <venustheme@gmail.com>
+ */
+$customForm = $this->getCurrentForm();
+
+if($customForm){
+	$fields = $customForm->getFields();
+	if(isset($fields[0]) && isset($fields[0]['fields'])) {
+		unset($fields[0]);
+	}
+
+	$display_type = $this->getConfig('display_type');
+	$popup_width = $this->getConfig('popup_width','80%');
+	$popup_height = $this->getConfig('popup_height','60%');
+	$heading = $this->getConfig('title');
+	$prefix_class = $this->getConfig('prefix_class');
+	$button_text = '';
+	$button_text = $this->getConfig('button_text');
+	if($button_text == ''){
+		$button_text = $heading;
+	}
+
+	if(isset($fields) && $fields) {
+		$enable_captcha = $this->getData('show_captcha');
+		$submit_button_text = $customForm->getSubmitButtonText();
+		$before_form_content = $customForm->getBeforeFormContent();
+		$after_form_content = $customForm->getAfterFormContent();
+		$settings = $customForm->getSettings();
+		?>
+	<div class="widget-customform <?php echo $prefix_class; ?>">
+		<a href="<?php echo Mage::helper('ves_formbuilder')->getFormLink($customForm); ?>" title="<?php echo $this->escapeHtml($button_text) ?>"><?php echo $button_text ?></a>
+	</div>
+	
+<?php } ?>
+<?php } ?>

@@ -1,0 +1,71 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$options = $field['field_options'];
+$required = $field['required'];
+$cid = $field['cid'];
+$field_name = Ves_FormBuilder_Model_Form::FIELD_NAME_PREFIX.$cid;
+
+$available_fields = Mage::helper('ves_formbuilder/fields')->getAvailableFields();
+$html = '';
+$field_validate = isset($available_fields[$field_type])?$available_fields[$field_type]:'';
+$validates = $field_validate;
+$field_help = isset($options['description'])?$options['description']:'';
+$field_class = isset($options['class'])?$options['class']:'';
+
+if($field_validate && is_array($field_validate)) {
+	$validates = implode(" ", $field_validate);
+}
+
+$width        = $field['width']?$field['width']:550 . 'px';
+$height       = isset($field['height'])?(float)$field['height']:400;
+$radius       = isset($options['radius'])?(float)$options['radius']:300;
+$default_lat  = isset($options['default_lat'])?(float)$options['default_lat']:21.0199438;
+$default_long = isset($options['default_long'])?(float)$options['default_long']:105.81731119999995;
+$address      = isset($options['address'])?$options['address']:"";
+$showLocation = isset($field['show_location'])?$field['show_location']:0;
+$showRadius   = isset($field['show_radius'])?$field['show_location']:0;
+?>
+<label for="<?php echo $field_name; ?>" class="<?php echo (1==$required)?'required':''; ?>"><?php echo (1==$required)?'<em>*</em>':'';?><?php echo $label; ?></label>
+<div class="input-box form-horizontal">
+
+    <div class="row">
+        <div <?php if (!$showLocation) { ?>style="display:none"<?php } ?> class="form-group col-sm-6">
+            <div class="row">
+                <label class="col-sm-2 control-label"><?php echo __("Location:"); ?></label>
+                <div class="col-sm-10"><input type="text" class="form-control" name="<?php echo $field_name; ?>" id="<?php echo $field_name."-address"; ?>"  value="<?php echo $address; ?>"/></div>
+            </div>
+        </div>
+        <div <?php if (!$showLocation) { ?>style="display:none"<?php } ?> class="form-group col-sm-6">
+            <div class="row">
+                <label class="col-sm-2 control-label"><?php echo __("Radius:"); ?></label>
+                <div class="col-sm-10"><input type="text" class="form-control" name="<?php echo $field_name."_radius"; ?>" id="<?php echo $field_name."-radius"; ?>" value="<?php echo ($form_data && isset($form_data[$field_name."_radius"]))?$form_data[$field_name."_radius"]:$radius; ?>"/></div>
+            </div>
+        </div>
+    </div>
+    <div id="<?php echo $field_name; ?>" style="width: <?php echo $width; ?>; height: <?php echo (float)$height; ?>px;"></div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="m-t-small">
+    	<input name="<?php echo $field_name."_lat"; ?>" id="<?php echo $field_name."-lat"; ?>" value="<?php echo ($form_data && isset($form_data[$field_name."_lat"]))?$form_data[$field_name."_lat"]:$default_lat; ?>" class="input-text" type="hidden"/>
+    	<input name="<?php echo $field_name."_long"; ?>" id="<?php echo $field_name."-long"; ?>" value="<?php echo ($form_data && isset($form_data[$field_name."_long"]))?$form_data[$field_name."_long"]:$default_long; ?>" class="input-text" type="hidden"/>
+    </div>
+    <div class="clearfix"></div>
+    <script type="text/javascript">
+    	jQuery('#<?php echo $field_name; ?>').locationpicker({
+           location: {latitude: <?php echo $default_lat; ?>, longitude: <?php echo $default_long; ?>},
+           radius: <?php echo $radius; ?>,
+           inputBinding: {
+               latitudeInput: jQuery('#<?php echo $field_name; ?>-lat'),
+               longitudeInput: jQuery('#<?php echo $field_name; ?>-long'),
+               radiusInput: jQuery('#<?php echo $field_name; ?>-radius'),
+               locationNameInput: jQuery('#<?php echo $field_name; ?>-address')
+           },
+           enableAutocomplete: true
+       });
+   </script>
+   <?php if($field_help) { ?>
+   <span class="help-block"><?php echo $field_help; ?></span>
+   <?php } ?>
+</div>

@@ -1,0 +1,47 @@
+<?php
+	$_storeBaseUrl = str_replace('index.php', '', Mage::getBaseUrl());
+?>
+<div class="fb-main layout-builder"></div>
+<div class="hidden-block"><textarea name="design" id="design_data" class="textarea hidden-content-layout hide" style="width: 400px; height: 200px"><?php echo $design; ?></textarea></div>
+
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ves_formbuilder/vendor/js/vendor.js"></script>
+<script type="text/javascript">
+var $j = jQuery.noConflict();
+</script>
+<script type="text/javascript">
+  <?php if($categories = $this->getModelCategories()): ?>
+  var data_model_categories = JSON.parse('<?php echo $categories; ?>');
+  <?php else: ?>
+  var data_model_categories = JSON.parse('[]');
+  <?php endif; ?>
+
+  <?php if($validations = Mage::helper("ves_formbuilder/fields")->getTranslatedValidateTypes()): ?>
+  var field_validation_array = JSON.parse('<?php echo Mage::helper('core')->jsonEncode($validations); ?>');
+  <?php else: ?>
+  var field_validation_array = JSON.parse('[]');
+  <?php endif; ?>
+</script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ves_formbuilder/formbuilder.js"></script>
+
+<script type="text/javascript">
+    jQuery(function($){
+    	var form_data = document.getElementById("design_data").value;
+      var fields_object = null;
+
+      if(form_data != "") {
+        var form_data_json = JSON.parse(form_data);
+        if(form_data_json['fields']) {
+          fields_object = form_data_json['fields'];
+        }
+      }
+    	
+      fb = new Formbuilder({
+        selector: '.fb-main',
+        bootstrapData: fields_object
+      });
+
+      fb.on('save', function(payload){
+        document.getElementById("design_data").value = payload;
+      })
+    });
+</script>

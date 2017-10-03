@@ -1,0 +1,8 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$group_tag = isset($field['group_tag'])?$field['group_tag']:'fieldset';
+?>
+</<?php echo $group_tag; ?>>

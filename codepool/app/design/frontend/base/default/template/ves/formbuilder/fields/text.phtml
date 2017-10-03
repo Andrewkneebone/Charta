@@ -1,0 +1,105 @@
+<?php
+$form_data = $this->getData('form_data');
+$field = $this->getData('field_data');
+$field_type = $field['field_type'];
+$label = $field['label'];
+$options = $field['field_options'];
+$required = $field['required'];
+$attribute_code = isset($field['attribute_code'])?$field['attribute_code']:'';
+$other_property = isset($field['other_property'])?$field['other_property']:'';
+$cid = $field['cid'];
+$default_input = "";
+$is_hidden = isset($field['is_hidden'])?(int)$field['is_hidden']:0;
+$input_type = $is_hidden?'hidden':'text';
+$customer_info = isset($field['customer_info'])?$field['customer_info']:"";
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+if($customer_info && $customer && $customer->getEntityId()) {
+	switch ($customer_info) {
+		case 'customer_id':
+		$default_input = $customer->getEntityId();
+		break;
+		case 'customer_name':
+		$default_input = $customer->getName();
+		break;
+		case 'customer_email':
+		$default_input = $customer->getEmail();
+		break;
+		case 'customer_firstname':
+		$default_input = $customer->getFirstname();
+		break;
+		case 'customer_lastname':
+		$default_input = $customer->getLastname();
+		break;
+		case 'customer_dob':
+		$default_input = $customer->getDob();
+		break;
+		case 'customer_phone':
+		$default_input = $customer->getDefaultBillingAddress()->getTelephone();
+		break;
+		case 'customer_address':
+		$address = $customer->getDefaultBillingAddress();
+		$street = $address->getStreet();
+		if(is_array($street)) {
+			$street = implode(",", $address->getStreet());
+		}
+		$country_name = "";
+		$countryCode = $address->getCountry();
+		if($countryCode) {
+			$country = Mage::getModel('directory/country')->loadByCode($countryCode);
+			$country_name = $country->getName();
+		}
+
+		$default_input = $street." ".$address->getCity().", ".$address->getRegion().", ".$address->getPostcode()." ".$country_name;
+		break;
+		default:
+			# code...
+		break;
+	}
+}
+if(!$default_input) {
+	$default_input = isset($field['default_input'])?$field['default_input']:"";
+}
+
+
+
+$field_name = Ves_FormBuilder_Model_Form::FIELD_NAME_PREFIX.$cid;
+
+$available_fields = Mage::helper('ves_formbuilder/fields')->getAvailableFields();
+$html = '';
+$field_validate = isset($available_fields[$field_type])?$available_fields[$field_type]:'';
+$validates = $field_validate;
+$field_help = isset($options['description'])?$options['description']:'';
+$field_class = isset($options['class'])?$options['class']:'';
+
+if($field_validate && is_array($field_validate)) {
+	$validates = implode(" ", $field_validate);
+}
+$size = isset($options['size'])?'rf-size-'.$options['size']:'';
+$min = isset($options['minlength'])?(int)$options['minlength']:0;
+$max = isset($options['maxlength'])?(int)$options['maxlength']:100;
+$min_max_length_units = isset($options['min_max_length_units'])?$options['min_max_length_units']:'characters';
+$validation_type = (isset($options['validation'])&&$options['validation'])?$options['validation']:"";
+$validates .=" ".$validation_type;
+
+if(!$default_input && $attribute_code && $_product = Mage::registry('current_product')) {
+	$product_id = $_product->getId();
+	$_resource = Mage::getSingleton('catalog/product')->getResource();
+	$default_input = $_resource->getAttributeRawValue($product_id,  $attribute_code, Mage::app()->getStore());
+}
+?>
+<div class="subtemplate-wrapper">
+	<label for="<?php echo $field_name; ?>" class="<?php echo (1==$required)?'required':''; ?>"><?php echo (1==$required)?'<em>*</em>':'';?><?php echo $label; ?></label>
+	<div class="row">
+		<div class="<?php echo isset($field['fieldcol'])?'col-sm-'.$field['fieldcol']:'col-sm-12'; ?>">
+			<div class="subtemplate-inner">
+
+				<div class="input-box">
+					<input name="<?php echo $field_name; ?>" id="<?php echo $field_name; ?>" title="<?php echo $label; ?>" value="<?php echo ($form_data && isset($form_data[$field_name]))?$form_data[$field_name]:$default_input; ?>" class="input-text <?php echo $field_class; ?> <?php echo (1==$required)?'required-entry':''; ?> <?php echo $validates; ?> <?php echo $size; ?> validate-min-max <?php echo ($min > 0)?'minimum-length-'.$min:''; ?> <?php echo ($max > 0)?'maximum-length-'.$max:''; ?>" type="<?php echo $input_type; ?>" data-units="<?php echo $min_max_length_units; ?>" <?php echo $other_property; ?>/>
+					<?php if($field_help) { ?>
+					<span class="help-block"><?php echo $field_help; ?></span>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
