@@ -50,14 +50,16 @@ class Ves_FormBuilder_Block_Adminhtml_Formbuilder_Edit_Tab_Custom extends Mage_A
         $fieldset->addField('custom_css', 'textarea', array(
             'name'      => 'custom_css',
             'label'     => Mage::helper('ves_formbuilder')->__('Custom CSS'),
-            'note' => Mage::helper('ves_blockbuilder')->__('Enter custom CSS code here. Your custom CSS will be outputted only on this particular form.'),
+//            'note' => Mage::helper('ves_blockbuilder')->__('Enter custom CSS code here. Your custom CSS will be outputted only on this particular form.'),
+            'note' => Mage::helper('ves_formbuilder')->__('Enter custom CSS code here. Your custom CSS will be outputted only on this particular form.'),
             'style'     => 'width:90%;height:24em;'
         ));
 
         $fieldset->addField('custom_js', 'textarea', array(
             'name'      => 'custom_js',
             'label'     => Mage::helper('ves_formbuilder')->__('Custom JS'),
-            'note' => Mage::helper('ves_blockbuilder')->__('Enter custom JS code here. Your custom JS will be outputted only on this particular form.'),
+//            'note' => Mage::helper('ves_blockbuilder')->__('Enter custom JS code here. Your custom JS will be outputted only on this particular form.'),
+            'note' => Mage::helper('ves_formbuilder')->__('Enter custom JS code here. Your custom JS will be outputted only on this particular form.'),
             'style'     => 'width:90%;height:24em;'
         ));
 
