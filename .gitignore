@@ -15,3 +15,10 @@ codepool/downloader/*
 atlassian-ide-plugin.xml
 codepool/.htaccess
 codepool/skin/frontend/enterprise/cellarone/.sass-cache/*
+codepool/app/code/community/Ves/FormBuilder/Block/.DS_Store
+codepool/app/code/community/Ves/FormBuilder/Block/Adminhtml/.DS_Store
+codepool/app/code/community/Ves/FormBuilder/Block/Adminhtml/Formgroupfield/.DS_Store
+codepool/app/code/community/Ves/FormBuilder/controllers/Adminhtml/.DS_Store
+codepool/app/design/frontend/sm_market/default/template/checkout/cart/item/_notes/
+codepool/app/design/frontend/sm_market/default/template/page/html/_notes/
+codepool/downloader/
