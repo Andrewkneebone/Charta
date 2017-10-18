@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Ecomwise_CategoryPermissions>
+			<active>true</active>
+			<codePool>community</codePool>
+			<depends>
+				<Ecomwise_Base />				
+                <Mage_Catalog />	    
+			</depends>
+		</Ecomwise_CategoryPermissions>
+	</modules>
+</config>

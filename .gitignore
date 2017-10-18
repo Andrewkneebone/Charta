@@ -1,0 +1,17 @@
+codepool/app/etc/local.xml
+codepool/media/catalog/product
+codepool/media
+codepool/errors/local.xml
+codepool/var/log
+codepool/var/cache
+codepool/var/full_page_cache
+codepool/var/session
+codepool/var/locks
+codepool/var/report
+codepool/var
+codepool/downloader/*
+.idea
+.DS_STORE
+atlassian-ide-plugin.xml
+codepool/.htaccess
+codepool/skin/frontend/enterprise/cellarone/.sass-cache/*
